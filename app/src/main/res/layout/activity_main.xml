@@ -4,11 +4,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button_start"
-        android:layout_width="243dp"
-        android:layout_height="117dp"
-        android:text="시작"
-        tools:layout_editor_absoluteX="286dp"
-        tools:layout_editor_absoluteY="583dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <Button
+            android:id="@+id/button_Scissors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="가위"
+             />
+
+        <Button
+            android:id="@+id/button_Rock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="바위"
+             />
+
+        <Button
+            android:id="@+id/button_Paper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="보"
+             />
+
+        <TextView
+            android:id="@+id/text_me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            tools:layout_editor_absoluteX="76dp"
+            tools:layout_editor_absoluteY="243dp" />
+
+        <TextView
+            android:id="@+id/text_com"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            tools:layout_editor_absoluteX="76dp"
+            tools:layout_editor_absoluteY="243dp" />
+
+        <TextView
+            android:id="@+id/text_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            tools:layout_editor_absoluteX="76dp"
+            tools:layout_editor_absoluteY="243dp" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
