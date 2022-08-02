@@ -20,56 +20,28 @@ class MainActivity : Activity() {
         val button_Rock = findViewById<Button>(R.id.button_Rock)
         val button_Scisseor = findViewById<Button>(R.id.button_Scissors)
 
-        var paper = Paper("보")
-        var rock = Rock("바위")
-        var scissors = Scissors("가위")
-
-
-                button_Paper.setOnClickListener{
-
-                    var com = Com()
-
-                    var com_choice = com.comResult()
-
-                    var result = paper.fight(com.comResult())
 
 
 
-                    text_me.text = "나 ${paper.paper}"
-                    text_com.text = "컴 ${com_choice}"
-                    text_result.text = "결과 :${result}"
+        button_Paper.setOnClickListener{
+            val computer = Com()
+            val computer2 = Com()
+        val player = player(handValue.rock)
+
+            player.playCase(computer, computer2 )
+
+
 
         }
 
         button_Rock.setOnClickListener{
 
-            var com = Com()
 
-            var com_choice = com.comResult()
-
-            var result = rock.fight(com.comResult())
-
-
-
-            text_me.text = "나 ${rock.rock}"
-            text_com.text = "컴 ${com_choice}"
-            text_result.text = "결과 :${result}"
 
         }
 
         button_Scisseor.setOnClickListener{
 
-            var com = Com()
-
-            var com_choice = com.comResult()
-
-            var result = scissors.fight(com.comResult())
-
-
-
-            text_me.text = "나 ${scissors.scissors}"
-            text_com.text = "컴 ${com_choice}"
-            text_result.text = "결과 :${result}"
 
         }
 

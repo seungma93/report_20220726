@@ -1,60 +1,95 @@
 package com.example.report_20220726
 
-abstract open class Hand (){
+import android.util.Log
 
-    abstract fun fight( value_com : String) : String
+
+sealed class playResult{
+    object win : playResult(){
+        val value = "이겼다"
+    }
+    object lose : playResult(){
+        val value = "졌다"
+    }
+    object draw : playResult(){
+        val value = "비겼다"
+    }
+}
+
+interface play{
+    fun play(other : Com) : playResult
+    fun playCase(otherNum : Int, vararg other: Com)
 
 
 }
 
-data class Paper (var value : String) : Hand() {
+sealed class handValue{
+    object rock : handValue()
+    object paper : handValue()
+    object scissors : handValue()
+}
 
-    val paper = value
 
-    override fun fight(value_com: String): String {
+class player(val myHand: handValue) : handValue(), play {
 
-        return when (value_com) {
-            "가위" -> "졌다"
-            "바위" -> "이겼다"
-            "보" -> "비겼다"
-            else -> throw IllegalArgumentException("문제발생")
+
+    override fun play(other : Com): playResult {
+
+        val com = Com()
+        val comHand = com.comResult()
+
+        if (myHand == handValue.rock) {
+            return when (comHand) {
+                comValue.rock -> playResult.draw
+                comValue.scissors -> playResult.win
+                comValue.paper -> playResult.lose
+            }
+        } else if (myHand == handValue.paper) {
+            return when (comHand) {
+                comValue.rock -> playResult.win
+                comValue.scissors -> playResult.lose
+                comValue.paper -> playResult.draw
+            }
+        } else {
+            return when (comHand) {
+                comValue.rock -> playResult.lose
+                comValue.scissors -> playResult.draw
+                comValue.paper -> playResult.win
+
+            }
         }
+
     }
 
 
 
+    override fun playCase(otherNum: Int, vararg other: Com)  {
 
-}
+        var array: ArrayList<Com> = arrayListOf<Com>()
+        for(i in otherNum){
+            array.add(other)
+        }
 
 
-data class Rock(var value: String) : Hand() {
 
-    val rock = value
+        if (otherNum == 1){
+        }else if ( other.size == 2){
 
-    override fun fight(value_com: String): String {
 
-        return when (value_com) {
-            "가위" -> "이겼다"
-            "바위" -> "비겼다"
-            "보" -> "졌다"
-            else -> throw IllegalArgumentException("문제발생")
+
+
+
+
         }
 
     }
+
+
 }
 
-data class Scissors (var value : String) : Hand() {
 
-    val scissors = value
 
-    override fun fight(value_com: String): String {
 
-        return when (value_com) {
-            "가위" -> "비겼다"
-            "바위" -> "졌다"
-            "보" -> "이겼다"
-            else -> throw IllegalArgumentException("문제발생")
-        }
 
-    }
-}
+
+
+
