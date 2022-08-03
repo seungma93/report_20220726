@@ -1,11 +1,9 @@
 package com.example.report_20220726
 
-import android.util.Log
-
 
 sealed class playResult{
     object win : playResult(){
-        val value = "이겼다"
+            val value = "이겼다"
     }
     object lose : playResult(){
         val value = "졌다"
@@ -17,7 +15,7 @@ sealed class playResult{
 
 interface play{
     fun play(other : Com) : playResult
-    fun playCase(otherNum : Int, vararg other: Com)
+    fun playCase(otherNum: Int, vararg other: Com) : playResult
 
 
 }
@@ -62,23 +60,33 @@ class player(val myHand: handValue) : handValue(), play {
 
 
 
-    override fun playCase(otherNum: Int, vararg other: Com)  {
-
-        var array: ArrayList<Com> = arrayListOf<Com>()
-        for(i in otherNum){
-            array.add(other)
-        }
-
+    override fun playCase(otherNum: Int, vararg other: Com) : playResult  {
 
 
         if (otherNum == 1){
+           val result = play(other[0])
+            return result
         }else if ( other.size == 2){
+            if ( other[0].Hand() != other[1].Hand() && other[0].Hand() != myHand && other[1].Hand() != myHand ){
+                return playResult.draw
+            }else if(other[0].Hand() == other[1].Hand() && other[0].Hand() == myHand && other[1].Hand() == myHand) {
+                return playResult.draw
+            }else{  if( play(other[0]) == playResult.lose){
+                    return playResult.lose
+                    }else if( play(other[0]) == playResult.win){
+                        return playResult.win
+                        }else{ if (play(other[1]) == playResult.lose){
+                                return playResult.lose
+                                }else{
+                                    return playResult.win
+                                    }
 
+                        }
 
+                }
 
-
-
-
+        }else{
+            return playResult.draw
         }
 
     }
