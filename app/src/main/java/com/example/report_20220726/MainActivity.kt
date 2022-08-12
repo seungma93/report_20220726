@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import kotlin.random.Random
 
 class MainActivity : Activity() {
 
@@ -24,16 +25,22 @@ class MainActivity : Activity() {
 
 
         buttonPaper.setOnClickListener {
-            val player = player(handValue.paper)
+            // 본인 플레이어 생성 (가위)
+            val me = Player("가위")
 
+            // 컴퓨터 숫자 받아옴
             val otherNumber = editCom.getText().toString().toInt()
 
+            // 컴퓨터 플레이어 생성
+            var comList : MutableList<Player> = mutableListOf()
 
-            var data = Array<Com>(otherNumber) {i -> Com()}
+            val random = Random
+            val num = random.nextInt(5)
 
+            for(i : Int in 0..otherNumber){
+                comList[i] = Player()
+            }
 
-
-            var result = player.playCase( otherNumber, *data )
 
 
             textMe.setText("보")
