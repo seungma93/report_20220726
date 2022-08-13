@@ -33,6 +33,14 @@
              />
 
         <TextView
+            android:id="@+id/text_me1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="나"
+            tools:layout_editor_absoluteX="76dp"
+            tools:layout_editor_absoluteY="243dp" />
+
+        <TextView
             android:id="@+id/text_me"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +49,31 @@
             tools:layout_editor_absoluteY="243dp" />
 
         <TextView
-            android:id="@+id/text_com"
+            android:id="@+id/text_com_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="컴퓨터1"
+            tools:layout_editor_absoluteX="76dp"
+            tools:layout_editor_absoluteY="243dp" />
+
+        <TextView
+            android:id="@+id/text_com1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="컴퓨터"
+            tools:layout_editor_absoluteX="76dp"
+            tools:layout_editor_absoluteY="243dp" />
+
+        <TextView
+            android:id="@+id/text_com_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="컴퓨터2"
+            tools:layout_editor_absoluteX="76dp"
+            tools:layout_editor_absoluteY="243dp" />
+
+        <TextView
+            android:id="@+id/text_com2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="컴퓨터"

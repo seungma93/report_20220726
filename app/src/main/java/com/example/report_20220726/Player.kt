@@ -1,7 +1,11 @@
 package com.example.report_20220726
 
+import android.util.Log
+import kotlin.random.Random
+
 interface play {
     fun playGame(me: Player, vararg player: Player): PlayResult
+
 }
 
 sealed class PlayResult {
@@ -9,6 +13,8 @@ sealed class PlayResult {
     object Lose : PlayResult()
     object Draw : PlayResult()
 }
+
+
 
 class Player(value: String) : Hand(value), play {
 
@@ -19,14 +25,15 @@ class Player(value: String) : Hand(value), play {
         var map: MutableMap<Player, String> = mutableMapOf(me to me.value)
         var set: MutableSet<String> = mutableSetOf()
 
-        for (i: Int in 0 until playerNum) {
+        for (i: Int in 0 until playerNum-1) {
             map.put(player[i], player[i].value)
         }
         for ((key, value) in map) {
             set = mutableSetOf(value)
+
         }
 
-        if (playerNum == 2) {
+        if (playerNum == 1) {
             if (set.size == 1) {
                 return PlayResult.Draw
             } else {
@@ -55,7 +62,7 @@ class Player(value: String) : Hand(value), play {
 
             }
 
-        } else if (playerNum == 3) {
+        } else if (playerNum == 2) {
             if (set.size == 1 || set.size == 3) {
                 return PlayResult.Draw
             } else {

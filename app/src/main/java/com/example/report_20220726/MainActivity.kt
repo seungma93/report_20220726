@@ -15,59 +15,47 @@ class MainActivity : Activity() {
 
 
         val textMe = findViewById<TextView>(R.id.text_me)
-        val textCom = findViewById<TextView>(R.id.text_com)
+        val textCom1 = findViewById<TextView>(R.id.text_com1)
+        val textCom2 = findViewById<TextView>(R.id.text_com2)
         val textResult = findViewById<TextView>(R.id.text_result)
         val buttonPaper = findViewById<Button>(R.id.button_Paper)
         val buttonRcok = findViewById<Button>(R.id.button_Rock)
         val buttonScisseor = findViewById<Button>(R.id.button_Scissors)
         val editCom = findViewById<EditText>(R.id.com_input)
 
+        fun random(): String {
+            // 3가지 랜덤 난수 발생
+            val randomNum = Random.nextInt(3)
 
+            return when (randomNum) {
+                0 -> "가위"
+                1 -> "바위"
+                2 -> "보"
+                else -> "오류"
+            }
+        }
 
         buttonPaper.setOnClickListener {
-            // 본인 플레이어 생성 (가위)
-            val me = Player("가위")
+            textMe.setText("보")
+            // 본인 플레이어 생성 (보)
+            val me = Player("보")
 
             // 컴퓨터 숫자 받아옴
             val otherNumber = editCom.getText().toString().toInt()
 
             // 컴퓨터 플레이어 생성
-            var comList : MutableList<Player> = mutableListOf()
+            var comList = Array<Player>(otherNumber) { i -> Player(random()) }
 
-            val random = Random
-            val num = random.nextInt(5)
-
-            for(i : Int in 0..otherNumber){
-                comList[i] = Player()
+            for(i: Int in 0..comList.size){
+             //   textCom1.setText(comList[i])
             }
 
-
-
-            textMe.setText("보")
-            var list = Array<String>(otherNumber) { i -> String()}
-            for (i in 0..otherNumber - 1){
-                if (data[i].comResult() == comValue.rock ){
-                    list[i] = "바위"
-
-                }else if (data[i].comResult() == comValue.paper){
-                    list[i] = "보"
-                }else {
-                    list[i] = "가위"
-                }
-            }
-            textCom.setText(list.joinToString(limit = otherNumber) )
-
-
-
-
-
-
-            if (result == playResult.win){
+            if (me.playGame(me, *comList) == PlayResult.Win) {
                 textResult.setText("이겼다")
-            }else if (result == playResult.draw){
-                textResult.setText("비겼다")
-            }else {
+            } else if (me.playGame(me, *comList) == PlayResult.Lose) {
                 textResult.setText("졌다")
+            } else {
+                textResult.setText("비겼다")
             }
 
 
@@ -75,88 +63,48 @@ class MainActivity : Activity() {
         }
 
         buttonScisseor.setOnClickListener {
-            val player = player(handValue.scissors)
+            textMe.setText("가위")
+            // 본인 플레이어 생성 (가위)
+            val me = Player("가위")
 
+            // 컴퓨터 숫자 받아옴
             val otherNumber = editCom.getText().toString().toInt()
 
+            // 컴퓨터 플레이어 생성
+            val comList = Array<Player>(otherNumber) { i -> Player(random()) }
 
-            var data = Array<Com>(otherNumber) {i -> Com()}
-
-
-
-            var result = player.playCase( otherNumber, *data )
-
-
-            textMe.setText("가위")
-            var list = Array<String>(otherNumber) { i -> String()}
-            for (i in 0..otherNumber - 1){
-                if (data[i].comResult() == comValue.rock ){
-                    list[i] = "바위"
-
-                }else if (data[i].comResult() == comValue.paper){
-                    list[i] = "보"
-                }else {
-                    list[i] = "가위"
-                }
-            }
-            textCom.setText(list.joinToString(limit = otherNumber) )
-
-
-
-
-
-
-            if (result == playResult.win){
+            if (me.playGame(me, *comList) == PlayResult.Win) {
                 textResult.setText("이겼다")
-            }else if (result == playResult.draw){
-                textResult.setText("비겼다")
-            }else {
+            } else if (me.playGame(me, *comList) == PlayResult.Lose) {
                 textResult.setText("졌다")
+            } else {
+                textResult.setText("비겼다")
             }
+
 
 
 
         }
 
         buttonRcok.setOnClickListener {
-            val player = player(handValue.rock)
+            textMe.setText("바위")
+            // 본인 플레이어 생성 (바위)
+            val me = Player("바위")
 
+            // 컴퓨터 숫자 받아옴
             val otherNumber = editCom.getText().toString().toInt()
 
+            // 컴퓨터 플레이어 생성
+            var comList = Array<Player>(otherNumber) { i -> Player(random()) }
 
-            var data = Array<Com>(otherNumber) {i -> Com()}
-
-
-
-            var result = player.playCase( otherNumber, *data )
-
-
-            textMe.setText("바위")
-            var list = Array<String>(otherNumber) { i -> String()}
-            for (i in 0..otherNumber - 1){
-                if (data[i].comResult() == comValue.rock ){
-                    list[i] = "바위"
-
-                }else if (data[i].comResult() == comValue.paper){
-                    list[i] = "보"
-                }else {
-                    list[i] = "가위"
-                }
-            }
-            textCom.setText(list.joinToString(limit = otherNumber) )
-
-
-
-
-
-
-            if (result == playResult.win){
+            if (me.playGame(me, *comList) == PlayResult.Win) {
                 textResult.setText("이겼다")
-            }else if (result == playResult.draw){
-                textResult.setText("비겼다")
-            }else {
+            } else if (me.playGame(me, *comList) == PlayResult.Lose) {
                 textResult.setText("졌다")
+            } else {
+                textResult.setText("비겼다")
             }
+
 
 
 
