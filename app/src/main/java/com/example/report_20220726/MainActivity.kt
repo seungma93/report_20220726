@@ -38,30 +38,33 @@ class MainActivity : Activity() {
         buttonPaper.setOnClickListener {
             textMe.setText("보")
             // 본인 플레이어 생성 (보)
-            val me = Player("보")
+            val me = Player("나", "가위")
 
             // 컴퓨터 숫자 받아옴
             val otherNumber = editCom.getText().toString().toInt()
 
             // 컴퓨터 플레이어 생성
-            var comList = Array<Player>(otherNumber) { i -> Player(random()) }
+            val playerList = mutableListOf<Player>()
+            playerList.add(0,me)
 
-            for(i: Int in 0..comList.size){
-             //   textCom1.setText(comList[i])
+            for(i:Int in 1..otherNumber){
+                playerList.add(i,Com("com$i",random()))
             }
 
-            if (me.playGame(me, *comList) == PlayResult.Win) {
-                textResult.setText("이겼다")
-            } else if (me.playGame(me, *comList) == PlayResult.Lose) {
-                textResult.setText("졌다")
-            } else {
-                textResult.setText("비겼다")
+
+            when(me.playGame(playerList)) {
+                PlayResult.Win -> textResult.setText("이겼다")
+
+
+
             }
+
+
 
 
 
         }
-
+/*
         buttonScisseor.setOnClickListener {
             textMe.setText("가위")
             // 본인 플레이어 생성 (가위)
@@ -109,6 +112,8 @@ class MainActivity : Activity() {
 
 
         }
+
+ */
 
     }
 
