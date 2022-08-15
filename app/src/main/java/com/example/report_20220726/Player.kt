@@ -37,7 +37,7 @@ open class Player(val name : String, val hand : String ) : Play {
 
         Log.v("테스트2", otherMap.get("com2").toString())
         println(otherSet)
-
+d
         when (otherNum){
             2 -> {
                 when(otherSet.size){
