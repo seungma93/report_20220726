@@ -4,7 +4,7 @@ import android.util.Log
 import kotlin.random.Random
 
 interface Play {
-    fun playGame(other: List<Player>): PlayResult
+    fun playGame(other: MutableList<Player>): PlayResult
 
 }
 
@@ -14,80 +14,83 @@ sealed class PlayResult {
     object Draw : PlayResult()
 }
 
+enum class HandValue {
+    rock,
+    scissor,
+    paper
+}
+
 class Me(name: String, hand: String) : Player(name, hand)
 class Com(name: String, hand: String) : Player(name, hand)
 
 
-open class Player(val name: String, val hand: String) : Play {
+open class Player(val name: String, val hand: HandValue) : Play {
 
 
-    override fun playGame(otherList: List<Player>): PlayResult {
-        //플레이어 수
+    override fun playGame(otherList: MutableList<Player>): PlayResult {
+
+        // 컴퓨터의 수
         val otherNum = otherList.size
-        val otherMap = otherList.map { it.name to it.hand }.toMap()
-        val otherSet: MutableSet<String> = mutableSetOf()
+        // 본인 추가
+        otherList.add(this)
+        // 맵에 모두 담음
+        val allMap = otherList.map { it.name to it.hand }.toMap()
+        // 비교할 set 생성
+        val compareSet: MutableSet<HandValue> = mutableSetOf()
 
-        for ((key, value) in otherMap) {
-            otherSet.add(value)
+        // set에 담음
+        for ((key, value) in allMap) {
+            compareSet.add(value)
         }
+
+        fun compareHand(me: Player, compareSet: MutableSet<HandValue>) : PlayResult{
+            return when (me.hand) {
+                HandValue.scissor -> when (compareSet.filterNot { it == HandValue.scissor }.get(0)) {
+                    HandValue.rock->  PlayResult.Lose
+                    HandValue.paper ->  PlayResult.Win
+                    HandValue.scissor ->  PlayResult.Draw
+                }
+                HandValue.rock -> when (compareSet.filterNot { it == HandValue.rock }.get(0)) {
+                    HandValue.scissor -> PlayResult.Win
+                    HandValue.paper -> PlayResult.Lose
+                    HandValue.rock->  PlayResult.Draw
+                }
+                HandValue.paper -> when (compareSet.filterNot { it == HandValue.paper }.get(0)) {
+                    HandValue.scissor -> return PlayResult.Lose
+                    HandValue.rock -> return PlayResult.Win
+                    HandValue.paper -> PlayResult.Draw
+                }
+
+            }
+
 
         //val compareResult = mutableListOf<String>()
-        Log.v("테스트", otherMap.get("com1").toString())
+        Log.v("테스트", allMap.get("com1").toString())
 
-        Log.v("테스트2", otherMap.get("com2").toString())
-        println(otherSet)
+        Log.v("테스트2", allMap.get("com2").toString())
+        println(compareSet)
 
-        when (otherNum) {
-            2 -> {
-                when (otherSet.size) {
-                    1 -> return PlayResult.Draw
-                    2 -> {
+        return when (otherNum) {
+            1 -> {
+                when (compareSet.size) {
+                    1 -> PlayResult.Draw
+                    2 -> compareHand(this, compareSet)
 
-                        when (otherMap.get("나")) {
-                            "가위" -> when (otherSet.filterNot { it == "가위" }.get(0)) {
-                                "바위" -> return PlayResult.Lose
-                                "보" -> return PlayResult.Win
-                            }
-                            "바위" -> when (otherSet.filterNot { it == "바위" }.get(0)) {
-                                "가위" -> return PlayResult.Win
-                                "보" -> return PlayResult.Lose
-                            }
-                            "보" -> when (otherSet.filterNot { it == "보" }.get(0)) {
-                                "가위" -> return PlayResult.Lose
-                                "바위" -> return PlayResult.Win
-                            }
-
-                        }
                     }
                 }
-
-            }
             else -> {
-                when (otherSet.size) {
-                    1, 3 -> return PlayResult.Draw
-                    2 -> {
+                when (compareSet.size) {
+                    1, 3 -> PlayResult.Draw
+                    2 -> compareHand(this, compareSet)
 
-                        when (otherMap.get("나")) {
-                            "가위" -> when (otherSet.filterNot { it == "가위" }.get(0)) {
-                                "바위" -> return PlayResult.Lose
-                                "보" -> return PlayResult.Win
-                            }
-                            "바위" -> when (otherSet.filterNot { it == "바위" }.get(0)) {
-                                "가위" -> return PlayResult.Win
-                                "보" -> return PlayResult.Lose
-                            }
-                            "보" -> when (otherSet.filterNot { it == "보" }.get(0)) {
-                                "가위" -> return PlayResult.Lose
-                                "바위" -> return PlayResult.Win
-                            }
 
-                        }
+
                     }
                 }
             }
         }
 
-        return PlayResult.Win
+
     }
 }
 

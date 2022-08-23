@@ -45,18 +45,14 @@ class MainActivity : Activity() {
 
             // 컴퓨터 플레이어 생성
             val playerList = mutableListOf<Player>()
-            playerList.add(0, me)
-
-
-
 
             for (i: Int in 1..otherNumber) {
-                playerList.add(i, Com("com$i", random()))
+                playerList.add(i - 1, Com("com$i", random()))
             }
 
             when (otherNumber) {
                 1 -> textCom1.setText(playerList[1].hand)
-                2 ->{
+                2 -> {
                     textCom1.setText(playerList[1].hand)
                     textCom2.setText(playerList[2].hand)
                 }
@@ -72,56 +68,6 @@ class MainActivity : Activity() {
 
 
         }
-/*
-        buttonScisseor.setOnClickListener {
-            textMe.setText("가위")
-            // 본인 플레이어 생성 (가위)
-            val me = Player("가위")
-
-            // 컴퓨터 숫자 받아옴
-            val otherNumber = editCom.getText().toString().toInt()
-
-            // 컴퓨터 플레이어 생성
-            val comList = Array<Player>(otherNumber) { i -> Player(random()) }
-
-            if (me.playGame(me, *comList) == PlayResult.Win) {
-                textResult.setText("이겼다")
-            } else if (me.playGame(me, *comList) == PlayResult.Lose) {
-                textResult.setText("졌다")
-            } else {
-                textResult.setText("비겼다")
-            }
-
-
-
-
-        }
-
-        buttonRcok.setOnClickListener {
-            textMe.setText("바위")
-            // 본인 플레이어 생성 (바위)
-            val me = Player("바위")
-
-            // 컴퓨터 숫자 받아옴
-            val otherNumber = editCom.getText().toString().toInt()
-
-            // 컴퓨터 플레이어 생성
-            var comList = Array<Player>(otherNumber) { i -> Player(random()) }
-
-            if (me.playGame(me, *comList) == PlayResult.Win) {
-                textResult.setText("이겼다")
-            } else if (me.playGame(me, *comList) == PlayResult.Lose) {
-                textResult.setText("졌다")
-            } else {
-                textResult.setText("비겼다")
-            }
-
-
-
-
-        }
-
- */
 
     }
 
