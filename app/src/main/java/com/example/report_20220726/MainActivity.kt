@@ -23,22 +23,21 @@ class MainActivity : Activity() {
         val buttonScisseor = findViewById<Button>(R.id.button_Scissors)
         val editCom = findViewById<EditText>(R.id.com_input)
 
-        fun random(): String {
+        fun random(): HandValue {
             // 3가지 랜덤 난수 발생
-            val randomNum = Random.nextInt(3)
+            var randomNum = Random.nextInt(3)
 
             return when (randomNum) {
-                0 -> "가위"
-                1 -> "바위"
-                2 -> "보"
-                else -> "오류"
+                0 -> HandValue.scissor
+                1 -> HandValue.rock
+                2 -> HandValue.paper
             }
         }
 
         buttonPaper.setOnClickListener {
             textMe.setText("보")
             // 본인 플레이어 생성 (보)
-            val me = Player("나", "보")
+            val me = Player("나", HandValue.paper)
 
             // 컴퓨터 숫자 받아옴
             val otherNumber = editCom.getText().toString().toInt()

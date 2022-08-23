@@ -20,8 +20,8 @@ enum class HandValue {
     paper
 }
 
-class Me(name: String, hand: String) : Player(name, hand)
-class Com(name: String, hand: String) : Player(name, hand)
+class Me(name: String, hand: HandValue) : Player(name, hand)
+class Com(name: String, hand: HandValue) : Player(name, hand)
 
 
 open class Player(val name: String, val hand: HandValue) : Play {
@@ -43,17 +43,18 @@ open class Player(val name: String, val hand: HandValue) : Play {
             compareSet.add(value)
         }
 
-        fun compareHand(me: Player, compareSet: MutableSet<HandValue>) : PlayResult{
+        fun compareHand(me: Player, compareSet: MutableSet<HandValue>) : PlayResult {
             return when (me.hand) {
-                HandValue.scissor -> when (compareSet.filterNot { it == HandValue.scissor }.get(0)) {
-                    HandValue.rock->  PlayResult.Lose
-                    HandValue.paper ->  PlayResult.Win
-                    HandValue.scissor ->  PlayResult.Draw
+                HandValue.scissor -> when (compareSet.filterNot { it == HandValue.scissor }
+                    .get(0)) {
+                    HandValue.rock -> PlayResult.Lose
+                    HandValue.paper -> PlayResult.Win
+                    HandValue.scissor -> PlayResult.Draw
                 }
                 HandValue.rock -> when (compareSet.filterNot { it == HandValue.rock }.get(0)) {
                     HandValue.scissor -> PlayResult.Win
                     HandValue.paper -> PlayResult.Lose
-                    HandValue.rock->  PlayResult.Draw
+                    HandValue.rock -> PlayResult.Draw
                 }
                 HandValue.paper -> when (compareSet.filterNot { it == HandValue.paper }.get(0)) {
                     HandValue.scissor -> return PlayResult.Lose
@@ -62,6 +63,7 @@ open class Player(val name: String, val hand: HandValue) : Play {
                 }
 
             }
+        }
 
 
         //val compareResult = mutableListOf<String>()
@@ -83,14 +85,13 @@ open class Player(val name: String, val hand: HandValue) : Play {
                     1, 3 -> PlayResult.Draw
                     2 -> compareHand(this, compareSet)
 
-
-
                     }
                 }
             }
+
         }
 
 
     }
-}
+
 
