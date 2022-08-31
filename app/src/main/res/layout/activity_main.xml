@@ -48,57 +48,27 @@
             tools:layout_editor_absoluteX="76dp"
             tools:layout_editor_absoluteY="243dp" />
 
-        <TextView
-            android:id="@+id/text_com_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="컴퓨터1"
-            tools:layout_editor_absoluteX="76dp"
-            tools:layout_editor_absoluteY="243dp" />
-
-        <TextView
-            android:id="@+id/text_com1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="컴퓨터"
-            tools:layout_editor_absoluteX="76dp"
-            tools:layout_editor_absoluteY="243dp" />
-
-        <TextView
-            android:id="@+id/text_com_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="컴퓨터2"
-            tools:layout_editor_absoluteX="76dp"
-            tools:layout_editor_absoluteY="243dp" />
-
-        <TextView
-            android:id="@+id/text_com2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="컴퓨터"
-            tools:layout_editor_absoluteX="76dp"
-            tools:layout_editor_absoluteY="243dp" />
-
-        <TextView
-            android:id="@+id/text_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="결과"
-            tools:layout_editor_absoluteX="76dp"
-            tools:layout_editor_absoluteY="243dp" />
-
         <EditText
             android:id="@+id/com_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="none"
-            android:text="참가자 수"
+            android:text=""
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="225dp" />
 
+        <FrameLayout
+            android:id="@+id/frame_view"
+            android:layout_width="409dp"
+            android:layout_height="564dp"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="326dp">
+
+        </FrameLayout>
+
     </LinearLayout>
+
 
 
 

@@ -15,12 +15,12 @@ sealed class PlayResult {
 }
 
 enum class HandValue {
-    rock,
-    scissor,
-    paper
+    Rock,
+    Scissor,
+    Paper
 }
 
-class Me(name: String, hand: HandValue) : Player(name, hand)
+
 class Com(name: String, hand: HandValue) : Player(name, hand)
 
 
@@ -33,11 +33,28 @@ open class Player(val name: String, val hand: HandValue) : Play {
         val otherNum = otherList.size
         // 본인 추가
         otherList.add(this)
+        for(i:Int in 0..otherList.size-1){
+            if(i == otherList.size-1){
+                when(otherList[i].hand){
+                    HandValue.Rock -> println(otherList[i].name + " = 바위")
+                    HandValue.Paper -> println(otherList[i].name + " = 보")
+                    HandValue.Scissor -> println(otherList[i].name + " = 가위")
+                }
+            }else{
+                when(otherList[i].hand){
+                    HandValue.Rock -> println(otherList[i].name + " = 바위")
+                    HandValue.Paper -> println(otherList[i].name + " = 보")
+                    HandValue.Scissor -> println(otherList[i].name + " = 가위")
+                }
+
+            }
+        }
+
+
         // 맵에 모두 담음
         val allMap = otherList.map { it.name to it.hand }.toMap()
         // 비교할 set 생성
         val compareSet: MutableSet<HandValue> = mutableSetOf()
-
         // set에 담음
         for ((key, value) in allMap) {
             compareSet.add(value)
@@ -45,21 +62,21 @@ open class Player(val name: String, val hand: HandValue) : Play {
 
         fun compareHand(me: Player, compareSet: MutableSet<HandValue>) : PlayResult {
             return when (me.hand) {
-                HandValue.scissor -> when (compareSet.filterNot { it == HandValue.scissor }
+                HandValue.Scissor -> when (compareSet.filterNot { it == HandValue.Scissor }
                     .get(0)) {
-                    HandValue.rock -> PlayResult.Lose
-                    HandValue.paper -> PlayResult.Win
-                    HandValue.scissor -> PlayResult.Draw
+                    HandValue.Rock -> PlayResult.Lose
+                    HandValue.Paper -> PlayResult.Win
+                    HandValue.Scissor -> PlayResult.Draw
                 }
-                HandValue.rock -> when (compareSet.filterNot { it == HandValue.rock }.get(0)) {
-                    HandValue.scissor -> PlayResult.Win
-                    HandValue.paper -> PlayResult.Lose
-                    HandValue.rock -> PlayResult.Draw
+                HandValue.Rock -> when (compareSet.filterNot { it == HandValue.Rock }.get(0)) {
+                    HandValue.Scissor -> PlayResult.Win
+                    HandValue.Paper -> PlayResult.Lose
+                    HandValue.Rock -> PlayResult.Draw
                 }
-                HandValue.paper -> when (compareSet.filterNot { it == HandValue.paper }.get(0)) {
-                    HandValue.scissor -> return PlayResult.Lose
-                    HandValue.rock -> return PlayResult.Win
-                    HandValue.paper -> PlayResult.Draw
+                HandValue.Paper -> when (compareSet.filterNot { it == HandValue.Paper }.get(0)) {
+                    HandValue.Scissor -> return PlayResult.Lose
+                    HandValue.Rock -> return PlayResult.Win
+                    HandValue.Paper -> PlayResult.Draw
                 }
 
             }
@@ -75,16 +92,14 @@ open class Player(val name: String, val hand: HandValue) : Play {
         return when (otherNum) {
             1 -> {
                 when (compareSet.size) {
-                    1 -> PlayResult.Draw
                     2 -> compareHand(this, compareSet)
-
+                    else-> PlayResult.Draw
                     }
                 }
             else -> {
                 when (compareSet.size) {
-                    1, 3 -> PlayResult.Draw
                     2 -> compareHand(this, compareSet)
-
+                    else -> PlayResult.Draw
                     }
                 }
             }

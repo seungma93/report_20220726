@@ -1,13 +1,14 @@
 package com.example.report_20220726
 
-import android.app.Activity
+
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 
-class MainActivity : Activity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,53 +16,116 @@ class MainActivity : Activity() {
 
 
         val textMe = findViewById<TextView>(R.id.text_me)
-        val textCom1 = findViewById<TextView>(R.id.text_com1)
-        val textCom2 = findViewById<TextView>(R.id.text_com2)
-        val textResult = findViewById<TextView>(R.id.text_result)
         val buttonPaper = findViewById<Button>(R.id.button_Paper)
-        val buttonRcok = findViewById<Button>(R.id.button_Rock)
+        val buttonRock = findViewById<Button>(R.id.button_Rock)
         val buttonScisseor = findViewById<Button>(R.id.button_Scissors)
         val editCom = findViewById<EditText>(R.id.com_input)
+
 
         fun random(): HandValue {
             // 3가지 랜덤 난수 발생
             var randomNum = Random.nextInt(3)
 
             return when (randomNum) {
-                0 -> HandValue.scissor
-                1 -> HandValue.rock
-                2 -> HandValue.paper
+                1 -> HandValue.Scissor
+                2 -> HandValue.Rock
+                else -> HandValue.Paper
             }
         }
 
         buttonPaper.setOnClickListener {
             textMe.setText("보")
             // 본인 플레이어 생성 (보)
-            val me = Player("나", HandValue.paper)
+            val me = Player("나", HandValue.Paper)
+            val transaction = supportFragmentManager.beginTransaction()
+            val editText = editCom.getText().toString()
 
-            // 컴퓨터 숫자 받아옴
-            val otherNumber = editCom.getText().toString().toInt()
+            if (editText.isEmpty()) {
+                transaction.replace(R.id.frame_view, ErrorFragment()).commit()
+            } else {
 
-            // 컴퓨터 플레이어 생성
-            val playerList = mutableListOf<Player>()
+                // 컴퓨터 숫자 받아옴
+                val otherNumber = editText.toInt()
 
-            for (i: Int in 1..otherNumber) {
-                playerList.add(i - 1, Com("com$i", random()))
+
+                // 컴퓨터 플레이어 생성
+                val playerList = mutableListOf<Player>()
+
+                for (i: Int in 1..otherNumber) {
+                    playerList.add(i - 1, Com("com$i", random()))
+                }
+
+                when (me.playGame(playerList)) {
+
+                    PlayResult.Win -> transaction.replace(R.id.frame_view, WinFragment()).commit()
+                    PlayResult.Lose -> transaction.replace(R.id.frame_view, LoseFragment()).commit()
+                    PlayResult.Draw -> transaction.replace(R.id.frame_view, DrawFragment()).commit()
+
+                }
+
             }
+        }
 
-            when (otherNumber) {
-                1 -> textCom1.setText(playerList[1].hand)
-                2 -> {
-                    textCom1.setText(playerList[1].hand)
-                    textCom2.setText(playerList[2].hand)
+        buttonScisseor.setOnClickListener {
+            textMe.setText("가위")
+            // 본인 플레이어 생성 (가위)
+            val me = Player("나", HandValue.Scissor)
+            val transaction = supportFragmentManager.beginTransaction()
+            val editText = editCom.getText().toString()
+
+
+            if (editText.isEmpty()) {
+                transaction.replace(R.id.frame_view, ErrorFragment()).commit()
+            } else {
+                // 컴퓨터 숫자 받아옴
+                val otherNumber = editText.toInt()
+
+                // 컴퓨터 플레이어 생성
+                val playerList = mutableListOf<Player>()
+
+                for (i: Int in 1..otherNumber) {
+                    playerList.add(i - 1, Com("com$i", random()))
+                }
+
+                when (me.playGame(playerList)) {
+
+                    PlayResult.Win -> transaction.replace(R.id.frame_view, WinFragment()).commit()
+                    PlayResult.Lose -> transaction.replace(R.id.frame_view, LoseFragment()).commit()
+                    PlayResult.Draw -> transaction.replace(R.id.frame_view, DrawFragment()).commit()
+
                 }
             }
 
-            when (me.playGame(playerList)) {
-                PlayResult.Win -> textResult.setText("이겼다")
-                PlayResult.Lose -> textResult.setText("졌다")
-                PlayResult.Draw -> textResult.setText("비겼다")
+        }
 
+        buttonRock.setOnClickListener {
+            textMe.setText("바위")
+            // 본인 플레이어 생성 (바위)
+            val me = Player("나", HandValue.Paper)
+            val transaction = supportFragmentManager.beginTransaction()
+            val editText = editCom.getText().toString()
+
+
+            if (editText.isEmpty()) {
+                transaction.replace(R.id.frame_view, ErrorFragment()).commit()
+            } else {
+
+                // 컴퓨터 숫자 받아옴
+                val otherNumber = editText.toInt()
+                // 컴퓨터 플레이어 생성
+                val playerList = mutableListOf<Player>()
+
+                for (i: Int in 1..otherNumber) {
+                    playerList.add(i - 1, Com("com$i", random()))
+                }
+
+                when (me.playGame(playerList)) {
+
+                    PlayResult.Win -> transaction.replace(R.id.frame_view, WinFragment()).commit()
+                    PlayResult.Lose -> transaction.replace(R.id.frame_view, LoseFragment()).commit()
+                    PlayResult.Draw -> transaction.replace(R.id.frame_view, DrawFragment()).commit()
+
+                }
 
             }
 
@@ -69,6 +133,5 @@ class MainActivity : Activity() {
         }
 
     }
-
 }
 
