@@ -11,52 +11,19 @@
         android:orientation="vertical">
 
 
-        <Button
-            android:id="@+id/button_Scissors"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="가위"
-             />
-
-        <Button
-            android:id="@+id/button_Rock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="바위"
-             />
-
-        <Button
-            android:id="@+id/button_Paper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="보"
-             />
-
-        <TextView
-            android:id="@+id/text_me1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="나"
-            tools:layout_editor_absoluteX="76dp"
-            tools:layout_editor_absoluteY="243dp" />
-
-        <TextView
-            android:id="@+id/text_me"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="나"
-            tools:layout_editor_absoluteX="76dp"
-            tools:layout_editor_absoluteY="243dp" />
-
         <EditText
             android:id="@+id/com_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="none"
-            android:text=""
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="225dp" />
+            android:text="입력 하시오"
+             />
+        <Button
+            android:id="@+id/button_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다음" />
 
         <FrameLayout
             android:id="@+id/frame_view"
@@ -64,6 +31,7 @@
             android:layout_height="564dp"
             tools:layout_editor_absoluteX="1dp"
             tools:layout_editor_absoluteY="326dp">
+
 
         </FrameLayout>
 
