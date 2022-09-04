@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -22,17 +23,22 @@ class MainActivity : AppCompatActivity() {
         val editCom = findViewById<EditText>(R.id.com_input)
 
 
-        fun random(): HandValue {
-            // 3가지 랜덤 난수 발생
-            var randomNum = Random.nextInt(3)
 
-            return when (randomNum) {
-                1 -> HandValue.Scissor
-                2 -> HandValue.Rock
-                else -> HandValue.Paper
-            }
+
+        fun setFragmnet(fragment: Fragment) {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.frame_view, fragment)
+            transaction.commit()
+
         }
 
+        fun setDateAtFragment(fragment:Fragment, value:String){
+            val bundle = Bundle()
+            bundle.putString("value", value)
+
+            fragment.arguments = bundle
+            setFragmnet(fragment)
+        }
         buttonNext.setOnClickListener {
 
 
@@ -40,21 +46,14 @@ class MainActivity : AppCompatActivity() {
             val transaction = supportFragmentManager.beginTransaction()
 
             val editText = editCom.getText().toString()
+            val otherNumber = editText.toInt()
+
 
             if (editText.isEmpty()) {
                 transaction.replace(R.id.frame_view, ErrorFragment()).commit()
             } else {
 
-                // 컴퓨터 숫자 받아옴
-                val otherNumber = editText.toInt()
-
-                val intent = Intent(this, PlayerListFragment::class.java)
-                intent.apply{
-                    this.putExtra("playerNum", otherNumber)
-                }
-
-
-
+                setDateAtFragment(PlayerListFragment(), editText)
 
             }
         }
