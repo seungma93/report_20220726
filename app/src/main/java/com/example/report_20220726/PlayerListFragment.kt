@@ -8,11 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import com.example.report_20220726.databinding.ActivityMainBinding
+import com.example.report_20220726.databinding.PlayerListBinding
 import kotlin.random.Random
 
 class PlayerListFragment : Fragment() {
     var value: String? = ""
-    lateinit var mainActivity: MainActivity
+
 
     fun random(): HandValue {
         // 3가지 랜덤 난수 발생
@@ -26,16 +28,6 @@ class PlayerListFragment : Fragment() {
     }
 
 
-
-    //fragment에서 mainActivity에 닿는 방법
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is MainActivity) mainActivity = context
-
-    }
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,25 +35,31 @@ class PlayerListFragment : Fragment() {
     ): View? {
 
 
-
-        arguments?.let{
+        arguments?.let {
             value = it.getString("value")
         }
 
-            val otherNumber = value!!.toInt()
-            // 컴퓨터 플레이어 생성
-            val playerList = mutableListOf<Player>()
+        val otherNumber = value!!.toInt()
+        // 컴퓨터 플레이어 생성
+        val playerList = mutableListOf<Player>()
 
-            for (i: Int in 1..otherNumber) {
-                playerList.add(i - 1, Com("com$i", random()))
-            }
+        for (i in 1..otherNumber) {
+            playerList.add(i - 1, Com("com$i", random()))
+        }
 
-        val ct = container!!.getContext();
-        val playListAdapter = PlayerListAdapter(mainActivity )
 
-            .adapt = dogAdapter
-       // println("안녕 $value")
 
+        val ct = requireContext()
+        val binding = PlayerListBinding.inflate(inflater, container, false)
+
+        val playerList1 = mutableListOf<Player>()
+        playerList1.add(Player("안녕",HandValue.Scissor))
+
+        val playListAdapter = PlayerListAdapter(ct, playerList1)
+        binding.playerListView.adapter = playListAdapter
+
+
+        println("안녕 $value")
         return inflater.inflate(R.layout.player_list, container, false)
 
     }
