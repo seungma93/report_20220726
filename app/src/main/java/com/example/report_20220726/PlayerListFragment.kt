@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import com.example.report_20220726.databinding.ActivityMainBinding
 import com.example.report_20220726.databinding.PlayerListBinding
 import kotlin.random.Random
 
@@ -55,12 +54,12 @@ class PlayerListFragment : Fragment() {
         val playerList1 = mutableListOf<Player>()
         playerList1.add(Player("안녕",HandValue.Scissor))
 
-        val playListAdapter = PlayerListAdapter(ct, playerList1)
+        val playListAdapter = PlayerListAdapter(ct, playerList)
         binding.playerListView.adapter = playListAdapter
 
 
         println("안녕 $value")
-        return inflater.inflate(R.layout.player_list, container, false)
-
+        //return inflater.inflate(R.layout.player_list, container, false)
+        return binding.root
     }
 }

@@ -12,11 +12,5 @@
         tools:layout_editor_absoluteX="21dp"
         tools:layout_editor_absoluteY="79dp"></ListView>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="51dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
