@@ -20,7 +20,7 @@ class PlayerListAdapter (val context: Context, val playerList: MutableList<Playe
         /* ArrayList<Dog>의 변수 dog의 이미지와 데이터를 ImageView와 TextView에 담는다. */
         val playerList = playerList[position]
 
-        playerName.text = playerList.name
+        playerName.text = "참가자 : " + playerList.name
         println("잘가 $playerName.text")
         return view
     }
