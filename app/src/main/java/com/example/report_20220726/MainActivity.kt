@@ -39,6 +39,8 @@ class MainActivity : AppCompatActivity() {
             fragment.arguments = bundle
             setFragmnet(fragment)
         }
+
+
         buttonNext.setOnClickListener {
 
 

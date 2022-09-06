@@ -26,6 +26,10 @@ class PlayerListFragment : Fragment() {
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,12 +53,14 @@ class PlayerListFragment : Fragment() {
 
 
         val ct = requireContext()
+
         val binding = PlayerListBinding.inflate(inflater, container, false)
 
         val playerList1 = mutableListOf<Player>()
         playerList1.add(Player("안녕",HandValue.Scissor))
 
         val playListAdapter = PlayerListAdapter(ct, playerList)
+
         binding.playerListView.adapter = playListAdapter
 
 
