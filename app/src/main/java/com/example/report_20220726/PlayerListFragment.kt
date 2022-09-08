@@ -7,12 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.report_20220726.databinding.PlayerListBinding
 import kotlin.random.Random
 
 class PlayerListFragment : Fragment() {
     var value: String? = ""
+    var mainActivity: MainActivity? = null
+
 
 
     fun random(): HandValue {
@@ -28,6 +33,7 @@ class PlayerListFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        mainActivity = context as MainActivity
     }
 
 
@@ -36,7 +42,6 @@ class PlayerListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
 
         arguments?.let {
             value = it.getString("value")
@@ -48,24 +53,67 @@ class PlayerListFragment : Fragment() {
 
         for (i in 1..otherNumber) {
             playerList.add(i - 1, Com("com$i", random()))
+
+
+        }
+
+        val binding = PlayerListBinding.inflate(inflater, container, false)
+        val adapter = PlayerListAdapter() { Player ->
+            Toast.makeText(requireContext(), "참가자 ${Player.name} 입니다.", Toast.LENGTH_SHORT).show()
+        }
+
+        adapter.datalist = playerList
+        binding.playerListView.adapter = adapter
+        binding.playerListView.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.btnScissor.setOnClickListener{
+
+            // 본인 플레이어 생성 (가위)
+            val me = Player("나", HandValue.Scissor)
+            val bundle = Bundle()
+            val test1 = Player("test",HandValue.Scissor)
+            bundle.putSerializable("test1", test1)
+                when (me.playGame(playerList)) {
+
+                    PlayResult.Win -> mainActivity?.setDateAtFragment(WinFragment(),"가위")
+                    PlayResult.Lose -> mainActivity?.setDateAtFragment(LoseFragment(),"가위")
+                    PlayResult.Draw -> mainActivity?.setDateAtFragment(DrawFragment(),"가위")
+
+                }
+        }
+
+        binding.btnRock.setOnClickListener{
+
+            // 본인 플레이어 생성 (가위)
+            val me = Player("나", HandValue.Rock)
+
+            when (me.playGame(playerList)) {
+
+                PlayResult.Win -> mainActivity?.setDateAtFragment(WinFragment(),"바위")
+                PlayResult.Lose -> mainActivity?.setDateAtFragment(LoseFragment(),"바위")
+                PlayResult.Draw -> mainActivity?.setDateAtFragment(DrawFragment(),"바위")
+
+            }
+        }
+
+        binding.btnPaper.setOnClickListener{
+
+            // 본인 플레이어 생성 (가위)
+            val me = Player("나", HandValue.Paper)
+
+            when (me.playGame(playerList)) {
+
+                PlayResult.Win -> mainActivity?.setDateAtFragment(WinFragment(),"보")
+                PlayResult.Lose -> mainActivity?.setDateAtFragment(LoseFragment(),"보")
+                PlayResult.Draw -> mainActivity?.setDateAtFragment(DrawFragment(),"보")
+
+            }
         }
 
 
 
-        val ct = requireContext()
-
-        val binding = PlayerListBinding.inflate(inflater, container, false)
-
-        val playerList1 = mutableListOf<Player>()
-        playerList1.add(Player("안녕",HandValue.Scissor))
-
-        val playListAdapter = PlayerListAdapter(ct, playerList)
-
-        binding.playerListView.adapter = playListAdapter
 
 
-        println("안녕 $value")
-        //return inflater.inflate(R.layout.player_list, container, false)
         return binding.root
     }
 }

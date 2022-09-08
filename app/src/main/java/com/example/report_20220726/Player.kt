@@ -1,6 +1,7 @@
 package com.example.report_20220726
 
 import android.util.Log
+import java.io.Serializable
 import kotlin.random.Random
 
 interface Play {
@@ -21,10 +22,10 @@ enum class HandValue {
 }
 
 
-class Com(name: String, hand: HandValue) : Player(name, hand)
+class Com(name: String, hand: HandValue) : Player(name, hand), Serializable
 
 
-open class Player(val name: String, val hand: HandValue) : Play {
+open class Player(val name: String, val hand: HandValue) : Play, Serializable {
 
 
     override fun playGame(otherList: MutableList<Player>): PlayResult {
