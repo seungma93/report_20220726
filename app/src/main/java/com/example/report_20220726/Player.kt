@@ -23,7 +23,7 @@ enum class HandValue {
 
 
 class Com(name: String, hand: HandValue) : Player(name, hand), Serializable
-
+class ComList(val playerList: MutableList<Player>) : Serializable
 
 open class Player(val name: String, val hand: HandValue) : Play, Serializable {
 

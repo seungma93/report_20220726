@@ -14,7 +14,6 @@ class MainActivity : AppCompatActivity() {
 
     fun setFragmnet(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-
         transaction.replace(R.id.frame_view, fragment)
                     .addToBackStack(null)
                     .commit()
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    fun setDateAtFragment2(fragment: Fragment, value: Player) {
+    fun setDateAtFragment2(fragment: Fragment, value: ComList) {
         val bundle = Bundle()
         bundle.putSerializable("value", value)
         fragment.arguments = bundle
