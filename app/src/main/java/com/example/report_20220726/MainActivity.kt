@@ -23,19 +23,20 @@ class MainActivity : AppCompatActivity() {
     fun setDateAtFragment(fragment: Fragment, value: String) {
         val bundle = Bundle()
         bundle.putString("value", value)
-
         fragment.arguments = bundle
         setFragmnet(fragment)
     }
 
 
 
-    fun setDateAtFragment2(fragment: Fragment, value: ComList) {
+    fun setDateAtFragment2(fragment: Fragment, value1: ComList, value2: Result ) {
         val bundle = Bundle()
-        bundle.putSerializable("value", value)
+        bundle.putSerializable("value1", value1)
+        bundle.putSerializable("value2", value2)
         fragment.arguments = bundle
         setFragmnet(fragment)
     }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

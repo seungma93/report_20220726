@@ -47,35 +47,47 @@ class PlayerListFragment : Fragment() {
         val otherNumber = value!!.toInt()
         // 컴퓨터 플레이어 생성
         val playerList = mutableListOf<Player>()
+        var me = Player("나", random())
+        playerList.add(0,me)
 
         for (i in 1..otherNumber) {
-            playerList.add(i - 1, Com("com$i", random()))
-
-
+            playerList.add(i , Com("com$i", random()))
         }
 
         val binding = PlayerListBinding.inflate(inflater, container, false)
         val adapter = PlayerListAdapter() { Player ->
             Toast.makeText(requireContext(), "참가자 ${Player.name} 입니다.", Toast.LENGTH_SHORT).show()
         }
-
         adapter.datalist = playerList
         binding.playerListView.adapter = adapter
         binding.playerListView.layoutManager = LinearLayoutManager(requireContext())
 
-        val comList = ComList(playerList)
 
 
         binding.btnScissor.setOnClickListener{
 
             // 본인 플레이어 생성 (가위)
             val me = Player("나", HandValue.Scissor)
+            playerList[0] = me
 
             //val bundle = Bundle()
             //val test1 = Player("test",HandValue.Scissor)
             //bundle.putSerializable("test1", test1)
 
-                mainActivity?.setDateAtFragment2(ResultListFragment(),comList)
+
+
+            val comList = ComList(playerList)
+
+
+            val playerResultList = mutableListOf<PlayResult>()
+
+            for(i in 0..playerList.size-1){
+                playerResultList.add(playerList[i].playGame(playerList))
+            }
+
+            val resultList = Result(playerResultList)
+
+            mainActivity?.setDateAtFragment2(ResultListFragment(),comList, resultList)
 
         }
 
@@ -87,8 +99,6 @@ class PlayerListFragment : Fragment() {
             when (me.playGame(playerList)) {
 
                 PlayResult.Win -> mainActivity?.setDateAtFragment(ResultListFragment(),"바위")
-                PlayResult.Lose -> mainActivity?.setDateAtFragment(LoseFragment(),"바위")
-                PlayResult.Draw -> mainActivity?.setDateAtFragment(DrawFragment(),"바위")
 
             }
         }
@@ -101,8 +111,6 @@ class PlayerListFragment : Fragment() {
             when (me.playGame(playerList)) {
 
                 PlayResult.Win -> mainActivity?.setDateAtFragment(ResultListFragment(),"보")
-                PlayResult.Lose -> mainActivity?.setDateAtFragment(LoseFragment(),"보")
-                PlayResult.Draw -> mainActivity?.setDateAtFragment(DrawFragment(),"보")
 
             }
         }

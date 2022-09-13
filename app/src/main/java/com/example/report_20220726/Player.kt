@@ -24,6 +24,7 @@ enum class HandValue {
 
 class Com(name: String, hand: HandValue) : Player(name, hand), Serializable
 class ComList(val playerList: MutableList<Player>) : Serializable
+class Result(val playerResultList: MutableList<PlayResult>) : Serializable
 
 open class Player(val name: String, val hand: HandValue) : Play, Serializable {
 
