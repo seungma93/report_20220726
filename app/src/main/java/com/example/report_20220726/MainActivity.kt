@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     fun setDateAtFragment2(fragment: Fragment, value1: ComList, value2: Result ) {
         val bundle = Bundle()
         bundle.putSerializable("value1", value1)
