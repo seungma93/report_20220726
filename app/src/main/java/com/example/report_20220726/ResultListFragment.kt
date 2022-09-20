@@ -12,6 +12,10 @@ import com.example.report_20220726.databinding.ResultListBinding
 import com.example.report_20220726.databinding.ResultListItemBinding
 
 class ResultListFragment : Fragment() {
+    companion object{
+        const val COMLIST_KEY = "COMLIST_KEY"
+        const val RESULT_KEY = "RESULT_KEY"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

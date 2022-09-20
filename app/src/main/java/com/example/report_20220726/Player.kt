@@ -6,31 +6,46 @@ import kotlin.random.Random
 
 interface Play {
     fun playGame(other: MutableList<Player>): PlayResult
-
 }
-
 sealed class PlayResult {
     object Win : PlayResult()
     object Lose : PlayResult()
     object Draw : PlayResult()
 }
-
 enum class HandValue {
     Rock,
     Scissor,
     Paper
 }
+class Com(name: String, hand: HandValue) : Player(name, hand), Serializable {
 
+}
+class ComList(val comNum: Int) : Serializable{
+    val playerList = mutableListOf<Player>()
+    fun random(): HandValue {
+        // 3가지 랜덤 난수 발생
+        var randomNum = Random.nextInt(3)
 
-class Com(name: String, hand: HandValue) : Player(name, hand), Serializable
-class ComList(val playerList: MutableList<Player>) : Serializable
+        return when (randomNum) {
+            1 -> HandValue.Scissor
+            2 -> HandValue.Rock
+            else -> HandValue.Paper
+        }
+    }
+    fun createComList() {
+
+        // 입력받은 컴퓨터 수 만큼 컴퓨터 객체 랜덤 생성후 리스트에 추가
+        for (i in 1..comNum) {
+            playerList.add(i , Com("com$i", random()))
+        }
+
+    }
+}
+
 class Result(val playerResultList: MutableList<PlayResult>) : Serializable
 
 open class Player(val name: String, val hand: HandValue) : Play, Serializable {
-
-
     override fun playGame(otherList: MutableList<Player>): PlayResult {
-
         // 컴퓨터의 수
         val otherNum = otherList.size
         // 본인 추가
@@ -51,8 +66,6 @@ open class Player(val name: String, val hand: HandValue) : Play, Serializable {
 
             }
         }
-
-
         // 맵에 모두 담음
         val allMap = otherList.map { it.name to it.hand }.toMap()
         // 비교할 set 생성
@@ -83,14 +96,10 @@ open class Player(val name: String, val hand: HandValue) : Play, Serializable {
 
             }
         }
-
-
         //val compareResult = mutableListOf<String>()
         Log.v("테스트", allMap.get("com1").toString())
-
         Log.v("테스트2", allMap.get("com2").toString())
         println(compareSet)
-
         return when (otherNum) {
             1 -> {
                 when (compareSet.size) {
@@ -107,6 +116,7 @@ open class Player(val name: String, val hand: HandValue) : Play, Serializable {
             }
 
         }
+
 
 
     }

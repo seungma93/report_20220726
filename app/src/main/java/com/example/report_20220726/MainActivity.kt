@@ -1,67 +1,68 @@
 package com.example.report_20220726
 
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import kotlin.random.Random
+import com.example.report_20220726.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+sealed class EndPoint{
+    data class PlayerListF(val playerNum: Int) : EndPoint()
+    data class ResultListF(val comList: ComList, val result: Result): EndPoint()
+    object Error : EndPoint()
+}
 
-    fun setFragmnet(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.frame_view, fragment)
-                    .addToBackStack(null)
-                    .commit()
+interface RSPGame{
+    fun navigateFragment(endPoint: EndPoint)
+}
 
-    }
-
-    fun setDateAtFragment(fragment: Fragment, value: String) {
-        val bundle = Bundle()
-        bundle.putString("value", value)
-        fragment.arguments = bundle
-        setFragmnet(fragment)
-    }
-
-
-    fun setDateAtFragment2(fragment: Fragment, value1: ComList, value2: Result ) {
-        val bundle = Bundle()
-        bundle.putSerializable("value1", value1)
-        bundle.putSerializable("value2", value2)
-        fragment.arguments = bundle
-        setFragmnet(fragment)
-    }
-
-
+class MainActivity : AppCompatActivity(), RSPGame {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        val editCom = binding.comInput
 
-        val buttonNext = findViewById<Button>(R.id.button_next)
-
-        val editCom = findViewById<EditText>(R.id.com_input)
-
-
-
-        buttonNext.setOnClickListener {
-
-            val transaction = supportFragmentManager.beginTransaction()
-
+        binding.buttonNext.setOnClickListener {
             val editText = editCom.getText().toString()
+            val playerNum = EndPoint.PlayerListF(editText.toInt())
 
             if (editText.isEmpty()) {
-                transaction.replace(R.id.frame_view, ErrorFragment()).commit()
+                setFragmnet(ErrorFragment())
             } else {
-                setDateAtFragment(PlayerListFragment(), editText)
+                navigateFragment(playerNum)
             }
         }
+    }
+
+    fun setFragmnet(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.frame_view, fragment)
+            .addToBackStack(null)
+            .commit()
 
     }
+
+    override fun navigateFragment(endPoint: EndPoint)  = with(Bundle()){
+        this.let {
+            when (endPoint) {
+                is EndPoint.PlayerListF -> {
+                    it.putInt(PlayerListFragment.PLAYER_NUMBER_KEY, endPoint.playerNum)
+                    setFragmnet(PlayerListFragment())
+                }
+                is EndPoint.ResultListF -> {
+                   it.putSerializable(ResultListFragment.COMLIST_KEY, endPoint.comList)
+                   it.putSerializable(ResultListFragment.RESULT_KEY, endPoint.result)
+                   setFragmnet((ResultListFragment()))
+                }
+                is EndPoint.Error -> {
+                }
+            }
+        }
+    }
+
+
 }
 

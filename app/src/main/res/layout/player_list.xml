@@ -9,9 +9,12 @@
         android:id="@+id/playerListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="38dp"
-        tools:layout_editor_absoluteY="29dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnScissor"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
 
     <Button
         android:id="@+id/btnScissor"
@@ -19,23 +22,29 @@
         android:layout_height="wrap_content"
         android:text="가위"
         app:layout_constraintTop_toBottomOf="@+id/playerListView"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btnRock"
+        android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/btnRock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="바위"
-        app:layout_constraintStart_toEndOf="@+id/btnPaper"
-        app:layout_constraintTop_toBottomOf="@+id/playerListView" />
+        app:layout_constraintTop_toBottomOf="@+id/playerListView"
+        app:layout_constraintLeft_toRightOf="@+id/btnScissor"
+        app:layout_constraintRight_toLeftOf="@id/btnPaper"
+        android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/btnPaper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="보"
-        app:layout_constraintStart_toEndOf="@+id/btnScissor"
-        app:layout_constraintTop_toBottomOf="@+id/playerListView" />
+        app:layout_constraintTop_toBottomOf="@+id/playerListView"
+        app:layout_constraintLeft_toRightOf="@+id/btnRock"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

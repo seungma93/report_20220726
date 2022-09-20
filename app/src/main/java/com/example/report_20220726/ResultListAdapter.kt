@@ -11,12 +11,23 @@ class ResultListAdapter(val itemClick: (Player) -> Unit): RecyclerView.Adapter<R
     var datalist = mutableListOf<Player>()//리사이클러뷰에서 사용할 데이터 미리 정의 -> 나중에 MainActivity등에서 datalist에 실제 데이터 추가
     var datalist2 = mutableListOf<PlayResult>()
 
-    inner class MyViewHolder(private val binding: ResultListItemBinding, val itemClick: (Player) -> Unit): RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(private val binding: ResultListItemBinding, val itemClick: (Player) -> Unit): RecyclerView.ViewHolder(binding.root) {
+
+        private var player : Player? = null
+
+        init{
+            binding.root.setOnClickListener{
+                player?.let{
+                    itemClick(it)
+                }
+            }
+        }
+
 
         fun bind(player:Player, result: PlayResult){
+            //this.player = player
             binding.resultListItem.text = player.name
             //println("호출 " + player.name)
-            itemView.setOnClickListener { itemClick(player)}
 
             when(result){
                 is PlayResult.Win -> binding.resultListItem2.text = " | 이겼다"
