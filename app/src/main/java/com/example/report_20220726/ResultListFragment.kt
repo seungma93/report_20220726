@@ -33,10 +33,10 @@ class ResultListFragment : Fragment() {
         val bundle = arguments
         // 전달 받은 객체 받기
         val test = bundle?.getSerializable("value1") as ComList
-        val test2 = bundle?.getSerializable("value2") as Result
+        val test2 = bundle?.getSerializable("value2") as ResultList
         // 아답터의 datalist들에 전달받은 객체의 리스트 넣기
         adapter.datalist = test.playerList
-        adapter.datalist2 = test2.playerResultList
+        adapter.datalist2 = test2.resultList
         // 아답터 및 레이아웃매니저 연결
         binding.resultListView.adapter = adapter
         binding.resultListView.layoutManager = LinearLayoutManager(requireContext())

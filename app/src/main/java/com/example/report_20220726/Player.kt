@@ -21,7 +21,9 @@ class Com(name: String, hand: HandValue) : Player(name, hand), Serializable {
 
 }
 class ComList(val comNum: Int) : Serializable{
+
     val playerList = mutableListOf<Player>()
+
     fun random(): HandValue {
         // 3가지 랜덤 난수 발생
         var randomNum = Random.nextInt(3)
@@ -32,18 +34,32 @@ class ComList(val comNum: Int) : Serializable{
             else -> HandValue.Paper
         }
     }
-    fun createComList() {
-
+    fun createComList() : MutableList<Player> {
         // 입력받은 컴퓨터 수 만큼 컴퓨터 객체 랜덤 생성후 리스트에 추가
-        for (i in 1..comNum) {
+        for (i in 1..comNum -1 ) {
             playerList.add(i , Com("com$i", random()))
+            println(playerList[i])
         }
-
+        return playerList
     }
 }
 
-class Result(val playerResultList: MutableList<PlayResult>) : Serializable
+class ResultList() : Serializable {
+    // 결과 넣을 리스트 생성
+    val resultList = mutableListOf<PlayResult>()
 
+    fun createResultList(comList: ComList): MutableList<PlayResult>  {
+        // 결과 리스트에 결과 넣기
+        comList.apply{
+        for(i in 0..playerList.size-1)
+        {
+            resultList.add(playerList[i].playGame(playerList))
+        }
+    }
+        return  resultList
+}
+
+}
 open class Player(val name: String, val hand: HandValue) : Play, Serializable {
     override fun playGame(otherList: MutableList<Player>): PlayResult {
         // 컴퓨터의 수

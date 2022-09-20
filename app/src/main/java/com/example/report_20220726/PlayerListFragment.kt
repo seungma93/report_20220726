@@ -21,16 +21,25 @@ class PlayerListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val bundle = Bundle()
-        val value = bundle.getString("value")
+        var value = 0
+        arguments?.apply{
+            value = getInt(PLAYER_NUMBER_KEY)
+        }
 
+        //val bundle = arguments
+        //val value = bundle?.getInt("PLAYER_NUMBER_KEY")
+        println("받는쪽 $value")
         // 입력받은 컴퓨터 수
-        val inputComNumber = value!!.toInt()
+        val inputComNumber = value!!
+
         // 컴퓨터 리스트 생성
         val comList = ComList(inputComNumber)
         val playerList = comList.createComList()
+        for(i in 1..playerList.size-1){
+            println(playerList[i].name)
+        }
         //
-        val me = Player("나", this.rand)
+        val me = Player("나", HandValue.Scissor)
         // 리스트 0번에 me 추가
         playerList.add(0,me)
 
@@ -42,8 +51,6 @@ class PlayerListFragment : Fragment() {
         }
         // datalist에 모든 플레이어 리스트 전달
         adapter.datalist = playerList
-
-
         binding.apply{
             // playerListView에 adapter 및 layoutmanager 연결
             playerListView.adapter = adapter
@@ -54,23 +61,19 @@ class PlayerListFragment : Fragment() {
                 // 본인 플레이어 손모양 가위로 변경
                 val me = Player("나", HandValue.Scissor)
                 playerList[0] = me
-                // 결과 넣을 리스트 생성
-                val playerResultList = mutableListOf<PlayResult>()
-                // 결과 리스트에 결과 넣기
-                for(i in 0..playerList.size-1){
-                    playerResultList.add(playerList[i].playGame(playerList))
-                }
+
                 // 프래그먼트 이동시 전달할 Result 객체 생성
-                val resultList = Result(playerResultList)
+                val resultList = ResultList()
+                resultList.createResultList(comList)
+
                 // 결과 프래그먼트에 값 전달 및 화면 이동
-
-                if(requireActivity() is RSPGame){
-
-                }
-                }
-
+                val endPoint = EndPoint.ResultListF(comList, resultList)
+                (requireActivity() as? RSPGame)?.navigateFragment(endPoint)
             }
         }
+        return binding.root
+    }
+
 
 
 

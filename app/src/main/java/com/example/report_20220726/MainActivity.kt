@@ -8,7 +8,7 @@ import com.example.report_20220726.databinding.ActivityMainBinding
 
 sealed class EndPoint{
     data class PlayerListF(val playerNum: Int) : EndPoint()
-    data class ResultListF(val comList: ComList, val result: Result): EndPoint()
+    data class ResultListF(val comList: ComList, val resultList: ResultList): EndPoint()
     object Error : EndPoint()
 }
 
@@ -20,21 +20,25 @@ class MainActivity : AppCompatActivity(), RSPGame {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
         val binding = ActivityMainBinding.inflate(layoutInflater)
-        val editCom = binding.comInput
+
+        println("메인테스트")
+
 
         binding.buttonNext.setOnClickListener {
-            val editText = editCom.getText().toString()
-            val playerNum = EndPoint.PlayerListF(editText.toInt())
-
+            val editText = binding.comInput.text.toString()
+            println("버튼 테스트")
+            println("에디 $editText")
             if (editText.isEmpty()) {
                 setFragmnet(ErrorFragment())
+                println("에러 테스트")
             } else {
+                val playerNum = EndPoint.PlayerListF(editText.toInt())
+                println("보내는 수 ${playerNum.playerNum}")
                 navigateFragment(playerNum)
             }
         }
+        setContentView(binding.root)
     }
 
     fun setFragmnet(fragment: Fragment) {
@@ -50,11 +54,12 @@ class MainActivity : AppCompatActivity(), RSPGame {
             when (endPoint) {
                 is EndPoint.PlayerListF -> {
                     it.putInt(PlayerListFragment.PLAYER_NUMBER_KEY, endPoint.playerNum)
+                    PlayerListFragment().arguments = it
                     setFragmnet(PlayerListFragment())
                 }
                 is EndPoint.ResultListF -> {
                    it.putSerializable(ResultListFragment.COMLIST_KEY, endPoint.comList)
-                   it.putSerializable(ResultListFragment.RESULT_KEY, endPoint.result)
+                   it.putSerializable(ResultListFragment.RESULT_KEY, endPoint.resultList)
                    setFragmnet((ResultListFragment()))
                 }
                 is EndPoint.Error -> {
