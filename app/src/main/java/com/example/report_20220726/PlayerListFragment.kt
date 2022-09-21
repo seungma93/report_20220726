@@ -1,65 +1,80 @@
 package com.example.report_20220726
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.report_20220726.databinding.PlayerListBinding
 import kotlin.random.Random
 
 class PlayerListFragment : Fragment() {
-    var value: String? = ""
-
-
-    fun random(): HandValue {
-        // 3가지 랜덤 난수 발생
-        var randomNum = Random.nextInt(3)
-
-        return when (randomNum) {
-            1 -> HandValue.Scissor
-            2 -> HandValue.Rock
-            else -> HandValue.Paper
-        }
+    companion object {
+        const val PLAYER_NUMBER_KEY = "PLAYER_NUMBER_KEY"
     }
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-
-        arguments?.let {
-            value = it.getString("value")
+        var value = 0
+        arguments?.apply{
+            value = getInt(PLAYER_NUMBER_KEY)
         }
 
-        val otherNumber = value!!.toInt()
-        // 컴퓨터 플레이어 생성
-        val playerList = mutableListOf<Player>()
+        //val bundle = arguments
+        //val value = bundle?.getInt("PLAYER_NUMBER_KEY")
+        println("받는쪽 $value")
+        // 입력받은 컴퓨터 수
+        val inputComNumber = value!!
 
-        for (i in 1..otherNumber) {
-            playerList.add(i - 1, Com("com$i", random()))
+        // 컴퓨터 리스트 생성
+        val comList = ComList(inputComNumber)
+        val playerList = comList.createComList()
+        for(i in 1..playerList.size-1){
+            println(playerList[i].name)
         }
+        //
+        val me = Player("나", HandValue.Scissor)
+        // 리스트 0번에 me 추가
+        playerList.add(0,me)
 
-
-
-        val ct = requireContext()
+        // play_list.xml 바인딩
         val binding = PlayerListBinding.inflate(inflater, container, false)
+        // adapter 객체 생성 클릭시 토스트 구현
+        val adapter = PlayerListAdapter() { Player ->
+            Toast.makeText(requireContext(), "참가자 ${Player.name} 입니다.", Toast.LENGTH_SHORT).show()
+        }
+        // datalist에 모든 플레이어 리스트 전달
+        adapter.datalist = playerList
+        binding.apply{
+            // playerListView에 adapter 및 layoutmanager 연결
+            playerListView.adapter = adapter
+            playerListView.layoutManager = LinearLayoutManager(requireContext())
+            // 가위 버튼 클릭
+            btnScissor.setOnClickListener{
 
-        val playerList1 = mutableListOf<Player>()
-        playerList1.add(Player("안녕",HandValue.Scissor))
+                // 본인 플레이어 손모양 가위로 변경
+                val me = Player("나", HandValue.Scissor)
+                playerList[0] = me
 
-        val playListAdapter = PlayerListAdapter(ct, playerList)
-        binding.playerListView.adapter = playListAdapter
+                // 프래그먼트 이동시 전달할 Result 객체 생성
+                val resultList = ResultList()
+                resultList.createResultList(comList)
 
-
-        println("안녕 $value")
-        //return inflater.inflate(R.layout.player_list, container, false)
+                // 결과 프래그먼트에 값 전달 및 화면 이동
+                val endPoint = EndPoint.ResultListF(comList, resultList)
+                (requireActivity() as? RSPGame)?.navigateFragment(endPoint)
+            }
+        }
         return binding.root
     }
+
+
+
+
 }
