@@ -17,17 +17,13 @@ enum class HandValue {
     Scissor,
     Paper
 }
-class Com(name: String, hand: HandValue) : Player(name, hand), Serializable {
-
-}
+class Com(name: String, hand: HandValue) : Player(name, hand), Serializable
 class ComList(val comNum: Int) : Serializable{
-
     val playerList = mutableListOf<Player>()
 
     fun random(): HandValue {
         // 3가지 랜덤 난수 발생
         var randomNum = Random.nextInt(3)
-
         return when (randomNum) {
             1 -> HandValue.Scissor
             2 -> HandValue.Rock
@@ -35,10 +31,11 @@ class ComList(val comNum: Int) : Serializable{
         }
     }
     fun createComList() : MutableList<Player> {
+        // 임의의 나 객체 생성해서 0번 배열에 추가
+        playerList.add(0,Player("나", random()))
         // 입력받은 컴퓨터 수 만큼 컴퓨터 객체 랜덤 생성후 리스트에 추가
-        for (i in 1..comNum -1 ) {
+        for (i in 1..comNum) {
             playerList.add(i , Com("com$i", random()))
-            println(playerList[i])
         }
         return playerList
     }
@@ -50,6 +47,7 @@ class ResultList() : Serializable {
 
     fun createResultList(comList: ComList): MutableList<PlayResult>  {
         // 결과 리스트에 결과 넣기
+        println("사이즈" + comList.playerList.size)
         comList.apply{
         for(i in 0..playerList.size-1)
         {
@@ -61,33 +59,17 @@ class ResultList() : Serializable {
 
 }
 open class Player(val name: String, val hand: HandValue) : Play, Serializable {
-    override fun playGame(otherList: MutableList<Player>): PlayResult {
-        // 컴퓨터의 수
-        val otherNum = otherList.size
-        // 본인 추가
-        otherList.add(this)
-        for(i:Int in 0..otherList.size-1){
-            if(i == otherList.size-1){
-                when(otherList[i].hand){
-                    HandValue.Rock -> println(otherList[i].name + " = 바위")
-                    HandValue.Paper -> println(otherList[i].name + " = 보")
-                    HandValue.Scissor -> println(otherList[i].name + " = 가위")
-                }
-            }else{
-                when(otherList[i].hand){
-                    HandValue.Rock -> println(otherList[i].name + " = 바위")
-                    HandValue.Paper -> println(otherList[i].name + " = 보")
-                    HandValue.Scissor -> println(otherList[i].name + " = 가위")
-                }
 
-            }
-        }
+    override fun playGame(playerList: MutableList<Player>): PlayResult {
+
+        val playerNum = playerList.size
+
         // 맵에 모두 담음
-        val allMap = otherList.map { it.name to it.hand }.toMap()
+        val playerMap = playerList.map { it.name to it.hand }.toMap()
         // 비교할 set 생성
         val compareSet: MutableSet<HandValue> = mutableSetOf()
         // set에 담음
-        for ((key, value) in allMap) {
+        for ((key, value) in playerMap) {
             compareSet.add(value)
         }
 
@@ -105,19 +87,15 @@ open class Player(val name: String, val hand: HandValue) : Play, Serializable {
                     HandValue.Rock -> PlayResult.Draw
                 }
                 HandValue.Paper -> when (compareSet.filterNot { it == HandValue.Paper }.get(0)) {
-                    HandValue.Scissor -> return PlayResult.Lose
-                    HandValue.Rock -> return PlayResult.Win
+                    HandValue.Scissor -> PlayResult.Lose
+                    HandValue.Rock -> PlayResult.Win
                     HandValue.Paper -> PlayResult.Draw
                 }
 
             }
         }
-        //val compareResult = mutableListOf<String>()
-        Log.v("테스트", allMap.get("com1").toString())
-        Log.v("테스트2", allMap.get("com2").toString())
-        println(compareSet)
-        return when (otherNum) {
-            1 -> {
+        return when (playerNum) {
+            2 -> {
                 when (compareSet.size) {
                     2 -> compareHand(this, compareSet)
                     else-> PlayResult.Draw

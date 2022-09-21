@@ -24,25 +24,30 @@ class ResultListFragment : Fragment() {
     ): View? {
         // result*.xml 바인딩
         val binding = ResultListBinding.inflate(inflater, container, false)
-        val binding2 = ResultListItemBinding.inflate(inflater, container, false)
+        //val binding2 = ResultListItemBinding.inflate(inflater, container, false)
         // 아답터 생성
         val adapter = ResultListAdapter() { Player ->
-            Toast.makeText(requireContext(), "참가자 ${Player.name} ${binding2.resultListItem2.text}  입니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "참가자 ${Player.name} 입니다.", Toast.LENGTH_SHORT).show()
         }
         // arguments 받는 변수
         val bundle = arguments
         // 전달 받은 객체 받기
-        val test = bundle?.getSerializable("value1") as ComList
-        val test2 = bundle?.getSerializable("value2") as ResultList
+        val comList = bundle?.getSerializable(COMLIST_KEY) as ComList
+        val resultList = bundle?.getSerializable(RESULT_KEY) as ResultList
+
+        println("사이즈" + comList.playerList.size)
+        for(i in 0..comList.playerList.size-1){
+            println("받았다" + comList.playerList[i].name + resultList.resultList[i])
+        }
+
         // 아답터의 datalist들에 전달받은 객체의 리스트 넣기
-        adapter.datalist = test.playerList
-        adapter.datalist2 = test2.resultList
-        // 아답터 및 레이아웃매니저 연결
-        binding.resultListView.adapter = adapter
-        binding.resultListView.layoutManager = LinearLayoutManager(requireContext())
-
-        //println("번들" + test.playerList[3].name)
-
+        adapter.datalist = comList.playerList
+        adapter.datalist2 = resultList.resultList
+        binding.apply {
+            // 아답터 및 레이아웃매니저 연결
+            binding.resultListView.adapter = adapter
+            binding.resultListView.layoutManager = LinearLayoutManager(requireContext())
+        }
         return binding.root
 
     }

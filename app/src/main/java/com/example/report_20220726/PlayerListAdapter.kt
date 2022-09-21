@@ -20,6 +20,7 @@ class PlayerListAdapter(val itemClick: (Player) -> Unit) :
         private var player: Player? = null
 
         init {
+            /*
             binding.root.setOnClickListener(object : View.OnClickListener {
                 override fun onClick(p0: View?) {
                     player?.let {
@@ -27,6 +28,8 @@ class PlayerListAdapter(val itemClick: (Player) -> Unit) :
                     }
                 }
             })
+
+             */
             binding.root.setOnClickListener {
                 player?.let {
                     itemClick(it)

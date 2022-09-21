@@ -12,9 +12,8 @@ class ResultListAdapter(val itemClick: (Player) -> Unit): RecyclerView.Adapter<R
     var datalist2 = mutableListOf<PlayResult>()
 
     class MyViewHolder(private val binding: ResultListItemBinding, val itemClick: (Player) -> Unit): RecyclerView.ViewHolder(binding.root) {
-
         private var player : Player? = null
-
+        //private var result : PlayResult? = null
         init{
             binding.root.setOnClickListener{
                 player?.let{
@@ -22,17 +21,21 @@ class ResultListAdapter(val itemClick: (Player) -> Unit): RecyclerView.Adapter<R
                 }
             }
         }
-
-
         fun bind(player:Player, result: PlayResult){
-            //this.player = player
-            binding.resultListItem.text = player.name
-            //println("호출 " + player.name)
+            this.player = player
+            //this.result = result
+            binding.resultListPlayer.text = player.name
+
+            when(player.hand){
+                HandValue.Scissor -> binding.resultListHandValue.text = "가위"
+                HandValue.Rock -> binding.resultListHandValue.text = "바위"
+                HandValue.Paper -> binding.resultListHandValue.text = "보"
+            }
 
             when(result){
-                is PlayResult.Win -> binding.resultListItem2.text = " | 이겼다"
-                is PlayResult.Lose -> binding.resultListItem2.text = " | 졌다"
-                is PlayResult.Draw -> binding.resultListItem2.text = " | 비겼다"
+                is PlayResult.Win -> binding.resultListResult.text = "이겼다"
+                is PlayResult.Lose -> binding.resultListResult.text = "졌다"
+                is PlayResult.Draw -> binding.resultListResult.text = "비겼다"
 
             }
 

@@ -27,11 +27,8 @@ class MainActivity : AppCompatActivity(), RSPGame {
 
         binding.buttonNext.setOnClickListener {
             val editText = binding.comInput.text.toString()
-            println("버튼 테스트")
-            println("에디 $editText")
             if (editText.isEmpty()) {
                 setFragmnet(ErrorFragment())
-                println("에러 테스트")
             } else {
                 val playerNum = EndPoint.PlayerListF(editText.toInt())
                 println("보내는 수 ${playerNum.playerNum}")
@@ -53,14 +50,17 @@ class MainActivity : AppCompatActivity(), RSPGame {
         this.let {
             when (endPoint) {
                 is EndPoint.PlayerListF -> {
+                    val fragment = PlayerListFragment()
                     it.putInt(PlayerListFragment.PLAYER_NUMBER_KEY, endPoint.playerNum)
-                    PlayerListFragment().arguments = it
-                    setFragmnet(PlayerListFragment())
+                    fragment.arguments = it
+                    setFragmnet(fragment)
                 }
                 is EndPoint.ResultListF -> {
+                   val fragment = ResultListFragment()
                    it.putSerializable(ResultListFragment.COMLIST_KEY, endPoint.comList)
                    it.putSerializable(ResultListFragment.RESULT_KEY, endPoint.resultList)
-                   setFragmnet((ResultListFragment()))
+                   fragment.arguments = it
+                   setFragmnet(fragment)
                 }
                 is EndPoint.Error -> {
                 }
