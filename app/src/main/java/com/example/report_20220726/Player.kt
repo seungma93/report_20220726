@@ -47,7 +47,6 @@ class ResultList() : Serializable {
 
     fun createResultList(comList: ComList): MutableList<PlayResult>  {
         // 결과 리스트에 결과 넣기
-        println("사이즈" + comList.playerList.size)
         comList.apply{
         for(i in 0..playerList.size-1)
         {

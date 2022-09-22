@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.report_20220726.databinding.PlayerListBinding
 import com.example.report_20220726.databinding.ResultListBinding
@@ -16,39 +19,48 @@ class ResultListFragment : Fragment() {
         const val COMLIST_KEY = "COMLIST_KEY"
         const val RESULT_KEY = "RESULT_KEY"
     }
+    private lateinit var binding: ResultListBinding
+    private val comList get() = requireArguments().getSerializable(COMLIST_KEY) as ComList
+    private val resultList get() = requireArguments().getSerializable(RESULT_KEY) as ResultList
+    private val model : MainModelView by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // result*.xml 바인딩
-        val binding = ResultListBinding.inflate(inflater, container, false)
-        //val binding2 = ResultListItemBinding.inflate(inflater, container, false)
+        // 바인딩
+        binding = ResultListBinding.inflate(inflater, container, false)
+        // 초기화
+        initView(binding)
+        return binding.root
+
+
+        }
+
+    fun initView(binding : ResultListBinding){
         // 아답터 생성
         val adapter = ResultListAdapter() { Player ->
             Toast.makeText(requireContext(), "참가자 ${Player.name} 입니다.", Toast.LENGTH_SHORT).show()
         }
-        // arguments 받는 변수
-        val bundle = arguments
-        // 전달 받은 객체 받기
-        val comList = bundle?.getSerializable(COMLIST_KEY) as ComList
-        val resultList = bundle?.getSerializable(RESULT_KEY) as ResultList
-
-        println("사이즈" + comList.playerList.size)
-        for(i in 0..comList.playerList.size-1){
-            println("받았다" + comList.playerList[i].name + resultList.resultList[i])
-        }
-
         // 아답터의 datalist들에 전달받은 객체의 리스트 넣기
-        adapter.datalist = comList.playerList
-        adapter.datalist2 = resultList.resultList
-        binding.apply {
-            // 아답터 및 레이아웃매니저 연결
-            binding.resultListView.adapter = adapter
-            binding.resultListView.layoutManager = LinearLayoutManager(requireContext())
+        adapter.comList = comList.playerList
+        adapter.ResultList = resultList.resultList
+        // 아답터 연결
+        binding.resultListView.adapter = adapter
+        //subscribe()
+
+        binding.btnNum.setOnClickListener{
+            subscribe()
         }
-        return binding.root
+    }
+    private fun subscribe() {
+        val nameObserver = Observer<Int> { newName ->
+            // Update the UI, in this case, a TextView.
+            binding.playerNum.text = newName.toString()
+        }
+        // observe the ViewModel's elapsed time
+        model.test().observe(requireActivity(), nameObserver)
 
     }
 }

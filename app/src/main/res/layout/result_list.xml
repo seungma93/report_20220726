@@ -2,11 +2,33 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/playerNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/resultListView"
+        app:layout_constraintRight_toLeftOf="@+id/btnNum"
+        android:text="사람 수"/>
+
+    <Button
+        android:id="@+id/btnNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="체크"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/playerNum"
+        android:layout_marginTop="20dp"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/resultListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="500dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/playerNum"
          />
 </androidx.constraintlayout.widget.ConstraintLayout>
