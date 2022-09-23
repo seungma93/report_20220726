@@ -11,17 +11,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/resultListView"
-        app:layout_constraintRight_toLeftOf="@+id/btnNum"
         android:text="사람 수"/>
 
-    <Button
-        android:id="@+id/btnNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="체크"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/playerNum"
-        android:layout_marginTop="20dp"/>
 
 
     <androidx.recyclerview.widget.RecyclerView

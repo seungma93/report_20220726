@@ -7,9 +7,10 @@ import androidx.lifecycle.ViewModel
 
 class MainModelView : ViewModel() {
 
-    val currentName: MutableLiveData<Int> by lazy {
-        MutableLiveData<Int>()
-    }
+    private val _currentNum = MutableLiveData<Int>()
+    val currentNum: LiveData<Int> = _currentNum
 
-    fun test() = currentName
+    fun setNum(name: Int) {
+        _currentNum.value = name
+    }
 }

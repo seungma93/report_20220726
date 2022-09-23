@@ -1,28 +1,23 @@
 package com.example.report_20220726
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.report_20220726.databinding.PlayerListBinding
-import com.example.report_20220726.databinding.ResultListBinding
-import kotlin.random.Random
 
 class PlayerListFragment : Fragment() {
     companion object {
         const val PLAYER_NUMBER_KEY = "PLAYER_NUMBER_KEY"
     }
+
     private val numOfPlayer get() = requireArguments().getInt(PLAYER_NUMBER_KEY)
-    private lateinit var binding : PlayerListBinding
-    private val model : MainModelView by activityViewModels()
+    private lateinit var binding: PlayerListBinding
+    private val model: MainModelView by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,11 +27,11 @@ class PlayerListFragment : Fragment() {
         // 바인딩
         binding = PlayerListBinding.inflate(inflater, container, false)
         // 초기화
-        initView(binding)
+        initView()
         return binding.root
     }
 
-    fun initView(binding : PlayerListBinding) {
+    fun initView() {
         // 컴퓨터 리스트 생성
         val comList = ComList(numOfPlayer)
         val playerList = comList.createComList()
@@ -46,13 +41,9 @@ class PlayerListFragment : Fragment() {
         }
         // datalist에 모든 플레이어 리스트 전달
         adapter.datalist = playerList
-
-        val nameObserver = Observer<Int> { newName ->
-            // Update the UI, in this case, a TextView.
-            binding.playerNum.text = newName.toString()
+        model.currentNum.observe(requireActivity()) {
+            binding.playerNum.text = it.toString()
         }
-        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        model.currentName.observe(requireActivity(), nameObserver)
 
 
         // 바인딩
@@ -72,10 +63,10 @@ class PlayerListFragment : Fragment() {
                 // 프래그먼트 호출
                 (requireActivity() as? RSPGame)?.navigateFragment(endPoint)
             }
-
-            btnNum.setOnClickListener{
-                model.currentName.setValue(numOfPlayer)
+            btnCheck.setOnClickListener {
+                model.setNum(numOfPlayer)
             }
+
         }
     }
 
