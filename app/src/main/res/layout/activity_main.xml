@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <EditText
             android:id="@+id/comInput"
@@ -18,26 +11,29 @@
             android:ems="10"
             android:inputType="none"
             android:text=""
-             />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btnNext"/>
+
         <Button
-            android:id="@+id/buttonNext"
+            android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="다음" />
+            android:text="다음"
+            app:layout_constraintTop_toBottomOf="@+id/comInput"/>
+
+        <TextView
+            android:id="@+id/playerNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            android:padding="10dp"
+            android:text="사람 수"/>
 
         <FrameLayout
             android:id="@+id/frame_view"
-            android:layout_width="409dp"
-            android:layout_height="564dp"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="326dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/btnNext"/>
 
+ </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </FrameLayout>
-
-    </LinearLayout>
-
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>

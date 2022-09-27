@@ -8,32 +8,31 @@
 
     <TextView
         android:id="@+id/resultListPlayer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
         android:text="TextView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/resultListHandValue"
-        />
+        android:gravity="center"/>
 
     <TextView
         android:id="@+id/resultListHandValue"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:text="TextView"
-        app:layout_constraintLeft_toLeftOf="@+id/resultListPlayer"
+        app:layout_constraintLeft_toRightOf="@+id/resultListPlayer"
         app:layout_constraintRight_toLeftOf="@+id/resultListResult"
-        />
+        android:gravity="center"/>
 
 
     <TextView
         android:id="@+id/resultListResult"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:text="TextView"
         app:layout_constraintLeft_toRightOf="@+id/resultListHandValue"
         app:layout_constraintRight_toRightOf="parent"
-
-        />
+        android:gravity="center"/>
 
 
 

@@ -2,6 +2,7 @@ package com.example.report_20220726
 
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.report_20220726.databinding.ActivityMainBinding
@@ -17,33 +18,38 @@ interface RSPGame{
 }
 
 class MainActivity : AppCompatActivity(), RSPGame {
+    private lateinit var binding : ActivityMainBinding
+    private val model : MainModelView by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-
-        println("메인테스트")
-
-
-        binding.buttonNext.setOnClickListener {
-            val editText = binding.comInput.text.toString()
-            if (editText.isEmpty()) {
-                setFragmnet(ErrorFragment())
-            } else {
-                val playerNum = EndPoint.PlayerListF(editText.toInt())
-                println("보내는 수 ${playerNum.playerNum}")
-                navigateFragment(playerNum)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        subscribe()
+        binding.apply {
+            btnNext.setOnClickListener {
+                val editText = comInput.text.toString()
+                if (editText.isEmpty()) {
+                    setFragmnet(ErrorFragment())
+                }else {
+                    val playerNum = EndPoint.PlayerListF(editText.toInt())
+                    navigateFragment(playerNum)
+                }
             }
         }
-        setContentView(binding.root)
     }
 
-    fun setFragmnet(fragment: Fragment) {
+    private fun subscribe() {
+        model.currentNum.observe(this) {
+            binding.playerNum.text = it.toString()
+        }
+    }
+
+    private fun setFragmnet(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame_view, fragment)
             .addToBackStack(null)
             .commit()
-
     }
 
     override fun navigateFragment(endPoint: EndPoint)  = with(Bundle()){
@@ -67,7 +73,5 @@ class MainActivity : AppCompatActivity(), RSPGame {
             }
         }
     }
-
-
 }
 

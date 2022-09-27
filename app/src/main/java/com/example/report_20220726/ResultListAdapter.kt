@@ -8,8 +8,8 @@ import com.example.report_20220726.databinding.ResultListItemBinding
 
 class ResultListAdapter(val itemClick: (Player) -> Unit): RecyclerView.Adapter<ResultListAdapter.MyViewHolder>() {
 
-    var datalist = mutableListOf<Player>()//리사이클러뷰에서 사용할 데이터 미리 정의 -> 나중에 MainActivity등에서 datalist에 실제 데이터 추가
-    var datalist2 = mutableListOf<PlayResult>()
+    var comList = mutableListOf<Player>()//리사이클러뷰에서 사용할 데이터 미리 정의 -> 나중에 MainActivity등에서 datalist에 실제 데이터 추가
+    var ResultList = mutableListOf<PlayResult>()
 
     class MyViewHolder(private val binding: ResultListItemBinding, val itemClick: (Player) -> Unit): RecyclerView.ViewHolder(binding.root) {
         private var player : Player? = null
@@ -21,6 +21,7 @@ class ResultListAdapter(val itemClick: (Player) -> Unit): RecyclerView.Adapter<R
                 }
             }
         }
+
         fun bind(player:Player, result: PlayResult){
             this.player = player
             //this.result = result
@@ -50,11 +51,11 @@ class ResultListAdapter(val itemClick: (Player) -> Unit): RecyclerView.Adapter<R
         return MyViewHolder(binding, itemClick)
     }
 
-    override fun getItemCount(): Int = datalist.size
+    override fun getItemCount(): Int = comList.size
 
     //recyclerview가 viewholder를 가져와 데이터 연결할때 호출
     //적절한 데이터를 가져와서 그 데이터를 사용하여 뷰홀더의 레이아웃 채움
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(datalist[position], datalist2[position])
+        holder.bind(comList[position], ResultList[position])
     }
 }
